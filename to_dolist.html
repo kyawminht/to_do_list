@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to do list</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h3 class="my-4">To Do list</h3>
+            <div class="col-lg-5">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="inputText">
+                    <button class="btn btn-dark" id="createBtn">Creat list</button>
+                </div>
+                <ul class="list-group" id="lists">
+                    <li class="list-group-item d-flex">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                              Default checkbox
+                            </label>
+                          </div>
+                          <button class="btn btn-sm btn-danger ms-auto">delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        //selector
+
+        const createBtn=document.querySelector("#createBtn");
+        const inputText=document.querySelector("#inputText");
+        const lists=document.querySelector("#lists");
+
+        //create li function
+        const createLi=(text)=>{
+            const li=document.createElement("li");
+            li.onchange=done;
+            li.ondblclick=edit;
+            li.className="list-group-item d-flex";
+            li.innerHTML=`<div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="">
+                            <label class="form-check-label" for="">
+                              ${text}
+                            </label>
+                          </div>
+                          <button class="btn btn-sm btn-danger ms-auto" onclick=del(event)>delete</button>
+                          `;
+                          return li;
+        }
+
+        //creating li when user click add btn
+
+        createBtn.addEventListener('click',event=>{
+           if (inputText.value.trim()){
+            lists.append(createLi(inputText.value));
+            inputText.value=null;
+           }else {
+            alert ("input field is empty");
+           }
+        });
+
+        //creating li when press enter key
+
+        inputText.addEventListener('keyup',event=>{
+            if (inputText.value.trim()){
+                if (event.keyCode === 13){
+                lists.append(createLi(inputText.value));
+                inputText.value=null;
+            }
+           }else {
+            alert ("input field is empty");
+           }
+           
+        });
+
+        //finish lists
+        const done=event=>{
+            event.target.nextElementSibling.classList.toggle("text-decoration-line-through");
+        }
+
+        //delete
+
+        const del=event=>{
+           event.target.parentElement.remove();
+        }
+
+        //edit
+
+        const edit=event=>{
+            const old=event.target;
+            const newTex=prompt (" edit",old.innerText);
+            if (newTex){
+                old.innerText=newTex;
+            }
+        }
+    </script>
+</body>
+</html>
